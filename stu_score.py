@@ -21,7 +21,7 @@ with open('/home/clikks/test/score.txt') as f:
             all = 0
             for n in all_report:
                 all = int(n[x]) + all
-                all_score.append(all)
+            all_score.append(all)
             x += 1
 
         for j in range(1,s):
