@@ -55,26 +55,18 @@ all_score.insert(0,'0\t平均')
 
 with open('finnal_score.txt','w') as f:
     for i in title:
-        f.write(i)
-        f.write('\t')
+        f.write(i + '\t')
     f.write('\r')
     for i in all_score:
-        f.write(i)
-        f.write('\t')
+        f.write(i + '\t')
     f.write('\r')
     for i in all_report:
         # all_report_2 = [k = '不及格' for k in i[2:-2] if k < 60]
-        f.write(i[0])
-        f.write('\t')
-        f.write(str(i[1]))
-        f.write('\t')
+        f.write(i[0] + '\t')
+        f.write(str(i[1]) + '\t')
         for k in i[2:-2]:
             if k < 60:
                 k = '不及格'
-            f.write(str(k))
-            f.write('\t')
-        f.write(str(i[-2]))
-        f.write('\t')
-        f.write(str(i[-1]))
-        f.write('\r')
+            f.write(str(k) + '\t')
+        f.write(str(i[-2]) + '\t' + str(i[-1]) + '\r')
 #处理学生不及格的成绩，并且将成绩格式化输出到文件中。
