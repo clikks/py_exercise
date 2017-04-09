@@ -8,33 +8,25 @@ with open('./score.txt') as f:
     data = f.readlines()
 
 for i in data:
-    person = i.split()
-    all_report.append(person)
+    all_report.append(i.split())
 #处理每个人的成绩并以一个列表保存到all_report列表
-
-rank = 1
 
 for k in all_report:
     s = len(k)
-    summit = 0
 
     for j in range(1,s):
         k[j] = float(k[j])
     summit = sum(k[1:])
-    k.append(summit)
     averge = summit / s
+    k.append(summit)
     k.append(averge)
 
 all_report = sorted(all_report,key=lambda d:d[-2],reverse=True)
-    # cp_all_report = all_report[:]
-
-
-
 #计算每个学生的总成绩和平均分,并且根据分数高低排序
+
 s = len(all_report[0])
 x = 1
-
-# print all_report
+rank = 1
 
 while x < s:
     all = 0
@@ -48,8 +40,6 @@ while x < s:
     x += 1
 #计算所有学生的每科平均分，总平均分,并添加名次
 
-# print all_score
-# print all_report
 title = ['名次','姓名','语文','数学','英语','物理','化学','生物','政治','历史','地理','总分','平均分']
 all_score.insert(0,'0\t平均')
 
@@ -61,9 +51,7 @@ with open('finnal_score.txt','w') as f:
         f.write(i + '\t')
     f.write('\r')
     for i in all_report:
-        # all_report_2 = [k = '不及格' for k in i[2:-2] if k < 60]
-        f.write(i[0] + '\t')
-        f.write(str(i[1]) + '\t')
+        f.write(i[0] + '\t' + str(i[1]) + '\t')
         for k in i[2:-2]:
             if k < 60:
                 k = '不及格'
