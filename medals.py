@@ -5,6 +5,7 @@ __author__ = 'clikks'
 import os
 
 print("=" * 24 + '\n' + " 奥运奖牌榜查询处理程序\n" + "=" * 24)
+#输出程序title
 
 def value(num,chose):
     while True:
@@ -15,6 +16,7 @@ def value(num,chose):
             break
         except ValueError:
             chose = input("请使用数字选择:\n" + ">>> ")
+#判断选择操作有效性的函数，防止用户输入错误的类型
 
 if os.path.exists('./medals_tally.db'):
     judge = True
@@ -26,7 +28,6 @@ if os.path.exists('./medals_tally.db'):
                 + ">>> "
                   )
     value(4,chose)
-
 else:
     judge = False
     chose = input("暂无奖牌榜数据，您可执行以下操作:\n"
@@ -35,6 +36,7 @@ else:
           + ">>> "
           )
     value(2,chose)
+#判断总奖牌榜数据文件是否存在，存在则给出全部操作选项，否则只能新增奖牌
 
 
 
