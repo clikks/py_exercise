@@ -19,21 +19,23 @@ class File_operate:
     def openfile(self,dir):
         self.dir = dir
         global new
-        with open(self.dir,'a+') as f:
+        with open(self.dir,encoding='utf-8') as f:
             new = {}
             data = f.readlines()
+            print(data)
             for line in data:
-                print(line)
+                # print(line)
                 line = line.strip()
                 text = line.split(':')[1].split(',')
                 print(text)
                 new[line.split(':')[0]] = text
+            print(new)
 
     def writefile(self,dir,dict):
         self.dir = dir
         self.dict = dict
         # self.dict2 = dict2
-        with open(self.dir,'w+') as f:
+        with open(self.dir,'w+',encoding='utf-8') as f:
             for i in self.dict:
                 f.write(i + ":")
                 for s in self.dict[i][0:-1]:
@@ -69,7 +71,7 @@ class Medal_tally:
             File_operate().writefile(path + 'new_tally.db',new)
         else:
             all_tally = {}
-            with open(path + 'medals_tally.db','r') as f:
+            with open(path + 'medals_tally.db','r',encoding='utf-8') as f:
                 for data in f.readlines():
                     data = data.strip()
                     doc = data.split(':')[1].split(",")
@@ -82,12 +84,17 @@ class Medal_tally:
                 else:
                     all_tally[self.name] = new[self.name]
 
+    def sorting(self):
+
+
+
 print("=" * 24 + '\n' + " 奥运奖牌榜查询处理程序\n" + "=" * 24)
 #输出程序title
 
 global path
 path = os.getcwd() + '/'
-if os.path.exists('./medals_tally.db'):
+if os.path.exists(path + 'medals_tally.db'):
+
     judge = True
     chose = input("请选择您需要的操作:\n"
                 + "1) 查看奖牌榜\n"
@@ -104,13 +111,16 @@ if os.path.exists('./medals_tally.db'):
     else:
         C1 = File_operate()
         C1.openfile(path + 'medals_tally.db')
+        print(2)
 else:
+    if os.path.exists(path + 'new_tally.db') == False:
+        os.mknod(path + 'new_tally.db')
     judge = False
     chose = input("暂无奖牌榜数据，您可执行以下操作:\n"
           + "1) 增加国家奖牌数量\n"
           + "2) 退出程序\n"
           + ">>> "
-          )
+                  )
     value(2,chose)
     C1 = File_operate()
     C1.openfile(path + 'new_tally.db')
