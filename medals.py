@@ -5,6 +5,7 @@ __author__ = 'clikks'
 import os,sys
 
 def value(num,chose):
+    x = 0
     while True:
         try:
             chose = int(chose)
@@ -12,7 +13,7 @@ def value(num,chose):
                 chose = int(input("选项错误，请重新选择:\n" + ">>> "))
             break
         except ValueError:
-            chose = int(input("请使用数字选择:\n" + ">>> "))
+            x = input("请使用数字选择:\n" + ">>> ")
 #判断选择操作有效性的函数，防止用户输入错误的类型
 
 class File_operate:
@@ -28,7 +29,6 @@ class File_operate:
                 for i in range(3):
                     text[i] = int(text[i])
                 new[line.split(':')[0]] = text
-            print(new)
 
     def writefile(self,dir,dict):
         self.dir = dir
@@ -56,7 +56,7 @@ class Medal_tally:
         self.gold = input("请输入新增金牌数：")
         self.silver = input("请输入新增银牌数：")
         self.copper = input("请输入新增铜牌数：")
-        if self.name in new:
+        if judge and self.name in new:
             del new[self.name]
             new[self.name] = [self.gold,self.silver,self.copper]
         else:
@@ -79,8 +79,7 @@ class Medal_tally:
                     all_tally[data.split(':')[0]] = doc
                 if self.name in all_tally:
                     for i in range(3):
-                        # all_tally[self.name][i] = int(all_tally[self.name][i])
-                        # new[self.name][i] = int(new[self.name][i])
+                        new[self.name][i] = int(new[self.name][i])
                         all_tally[self.name][i] += new[self.name][i]
                 else:
                     all_tally[self.name] = new[self.name]
@@ -90,13 +89,10 @@ class Medal_tally:
         for i in new:
             result = new[i][0] + new[i][1] + new[i][2]
             board[i] = result
-
         rank = sorted(board.items(),key=lambda d:d[1],reverse=True)
         g_rank = sorted(new.items(),key=lambda d:d[1][0],reverse=True)
-
         print('名次\t国家\t金牌数\t银牌数\t铜牌数',end='')
         x = 1
-
         if int(chose) == 1:
             print('\t奖牌总数')
             for s in rank:
@@ -106,23 +102,24 @@ class Medal_tally:
                       %(x,s[0],new[s[0]][0],new[s[0]][1],new[s[0]][2],s[1])
                 x += 1
                 print(str)
+            input('Enter to quit!')
         if int(chose) == 2:
-            print('\n')
+            print('\n',end='')
             for s in g_rank:
                 str = '%d\t%s\t%s\t%s\t%s'\
                       %(x,s[0],new[s[0]][0],new[s[0]][1],new[s[0]][2])
                 x += 1
                 print(str)
+            input('Enter to quit!')
 
     def clean_db(self):
         if os.path.exists(path + 'new_tally.db') and os.path.exists(path + 'medals_tally.db'):
             os.remove(path + 'new_tally.db')
             os.remove(path + 'medals_tally.db')
 
-while True:
+run = True
+while run:
     print("=" * 24 + '\n' + " 奥运奖牌榜查询处理程序\n" + "=" * 24)
-    #输出程序title
-
     global path
     path = os.getcwd() + '/'
 
@@ -136,43 +133,46 @@ while True:
                     + "5) 退出程序\n"
                     + ">>> "
                       )
-        value(4,chose)
-        if chose == 3:
+        value(5,chose)
+        chose = x
+        print(chose)
+        # chose = int(chose)
+        if int(chose) == 3:
             C1 = File_operate()
             C1.openfile(path + 'new_tally.db')
             C2 = Medal_tally()
             C2.new_tally()
-        if chose == 4:
+            C1.writefile(path + 'new_tally.db', new)
+            C2.sum_new_tally()
+            C1.writefile(path + 'medals_tally.db', all_tally)
+        if int(chose) == 4:
             C2 = Medal_tally()
             C2.clean_db()
-        if chose == 5:
+        if int(chose) == 5:
+            run = False
             sys.exit()
-        else:
+        elif int(chose) ==1 or int(chose) ==2:
             C1 = File_operate()
             C1.openfile(path + 'medals_tally.db')
             C2 = Medal_tally()
             C2.sorting()
+    elif os.path.exists(path + 'new_tally.db'):
+        os.remove(path + 'new_tally.db')
     else:
-        if os.path.exists(path + 'new_tally.db') == False:
-            os.mknod(path + 'new_tally.db')
         judge = False
+        new = {}
         chose = input("暂无奖牌榜数据，您可执行以下操作:\n"
               + "1) 增加国家奖牌数量\n"
               + "2) 退出程序\n"
               + ">>> "
                       )
         value(2,chose)
-    if chose == 2 or chose == 5:
-        sys.exit()
-        break
-        # C1 = File_operate()
-        # C1.openfile(path + 'new_tally.db')
-#判断总奖牌榜数据文件是否存在，存在则给出全部操作选项，否则只能新增奖牌
+        if int(chose) == 1:
+            C2 = Medal_tally()
+            C2.new_tally()
+            C2.sum_new_tally()
+        else:
+            run = False
+            sys.exit()
 
-# C2 = Medal_tally()
-# C2.sorting()
-# C2.new_tally()
-# C1.writefile(path + 'new_tally.db',new)
-# C2.sum_new_tally()
-# if judge:
-#     C1.writefile(path + 'medals_tally.db',all_tally)
+#判断总奖牌榜数据文件是否存在，存在则给出全部操作选项，否则只能新增奖牌
