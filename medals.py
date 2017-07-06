@@ -5,15 +5,16 @@ __author__ = 'clikks'
 import os,sys
 
 def value(num,chose):
-    x = 0
     while True:
         try:
             chose = int(chose)
             while chose > num:
                 chose = int(input("选项错误，请重新选择:\n" + ">>> "))
+                return chose
             break
         except ValueError:
-            x = input("请使用数字选择:\n" + ">>> ")
+            chose = input("请使用数字选择:\n" + ">>> ")
+            return chose
 #判断选择操作有效性的函数，防止用户输入错误的类型
 
 class File_operate:
@@ -133,10 +134,8 @@ while run:
                     + "5) 退出程序\n"
                     + ">>> "
                       )
-        value(5,chose)
-        chose = x
+        chose = value(5,chose)
         print(chose)
-        # chose = int(chose)
         if int(chose) == 3:
             C1 = File_operate()
             C1.openfile(path + 'new_tally.db')
