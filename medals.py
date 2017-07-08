@@ -10,7 +10,7 @@ def value(num,chose):
             chose = int(chose)
             while chose > num:
                 chose = int(input("选项错误，请重新选择:\n" + ">>> "))
-                return chose
+            return chose
             break
         except ValueError:
             chose = input("请使用数字选择:\n" + ">>> ")
@@ -30,11 +30,11 @@ class File_operate:
                 for i in range(3):
                     text[i] = int(text[i])
                 new[line.split(':')[0]] = text
+    #提供文件路径，并打开文件写入new字典。
 
     def writefile(self,dir,dict):
         self.dir = dir
         self.dict = dict
-        # self.dict2 = dict2
         with open(self.dir,'w+',encoding='utf-8') as f:
             for i in self.dict:
                 f.write(i + ":")
@@ -43,6 +43,7 @@ class File_operate:
                 s = self.dict[i][-1]
                 f.write(str(s))
                 f.write('\r')
+    # 提供文件路径和需要写入文件的字典，将字典写入文件中。
 
 class Medal_tally:
     def __init__(self,name = 'china',gold=0,silver=0,copper=0):
@@ -84,40 +85,39 @@ class Medal_tally:
                         all_tally[self.name][i] += new[self.name][i]
                 else:
                     all_tally[self.name] = new[self.name]
+    #定义总奖牌计数方法，将新增奖牌数量加到原有奖牌数上。
 
     def sorting(self):
         board = {}
         for i in new:
             result = new[i][0] + new[i][1] + new[i][2]
             board[i] = result
-        rank = sorted(board.items(),key=lambda d:d[1],reverse=True)
-        g_rank = sorted(new.items(),key=lambda d:d[1][0],reverse=True)
         print('名次\t国家\t金牌数\t银牌数\t铜牌数',end='')
         x = 1
         if int(chose) == 1:
+            rank = sorted(board.items(), key=lambda d: d[1], reverse=True)
             print('\t奖牌总数')
             for s in rank:
-                # print(s)
-                # print(s[0] + '\t' + new[s[0]][0])
                 str = '%d\t%s\t%s\t%s\t%s\t%s'\
                       %(x,s[0],new[s[0]][0],new[s[0]][1],new[s[0]][2],s[1])
                 x += 1
                 print(str)
-            input('Enter to quit!')
         if int(chose) == 2:
+            rank = sorted(new.items(), key=lambda d: d[1][0], reverse=True)
             print('\n',end='')
-            for s in g_rank:
+            for s in rank:
                 str = '%d\t%s\t%s\t%s\t%s'\
                       %(x,s[0],new[s[0]][0],new[s[0]][1],new[s[0]][2])
                 x += 1
                 print(str)
-            input('Enter to quit!')
+        input('\nPlease enter to exit query!')
+    #定义奖牌榜级金牌榜排序的方法，并格式化输出奖牌榜及金牌榜。
 
     def clean_db(self):
         if os.path.exists(path + 'new_tally.db') and os.path.exists(path + 'medals_tally.db'):
             os.remove(path + 'new_tally.db')
             os.remove(path + 'medals_tally.db')
-
+    #定义清除奖牌榜数据库的方法。
 run = True
 while run:
     print("=" * 24 + '\n' + " 奥运奖牌榜查询处理程序\n" + "=" * 24)
@@ -135,7 +135,7 @@ while run:
                     + ">>> "
                       )
         chose = value(5,chose)
-        print(chose)
+
         if int(chose) == 3:
             C1 = File_operate()
             C1.openfile(path + 'new_tally.db')
@@ -150,7 +150,7 @@ while run:
         if int(chose) == 5:
             run = False
             sys.exit()
-        elif int(chose) ==1 or int(chose) ==2:
+        elif int(chose) == 1 or int(chose) == 2:
             C1 = File_operate()
             C1.openfile(path + 'medals_tally.db')
             C2 = Medal_tally()
@@ -165,7 +165,7 @@ while run:
               + "2) 退出程序\n"
               + ">>> "
                       )
-        value(2,chose)
+        chose = value(2,chose)
         if int(chose) == 1:
             C2 = Medal_tally()
             C2.new_tally()
@@ -174,4 +174,3 @@ while run:
             run = False
             sys.exit()
 
-#判断总奖牌榜数据文件是否存在，存在则给出全部操作选项，否则只能新增奖牌
