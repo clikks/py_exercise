@@ -5,7 +5,7 @@ __author__ = 'lux'
 from bs4 import BeautifulSoup
 import urllib.request
 import re
-
+import posixpath
 
 class Beauty:
     def __init__(self, start=0, end=0,image=[]):
