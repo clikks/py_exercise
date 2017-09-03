@@ -20,7 +20,7 @@ class Proxies:
                          Hm_lvt_7ed65b1cc4b810e9fd37959c9bb51b31=1504107640,1504109383,1504185178; \
                          Hm_lpvt_7ed65b1cc4b810e9fd37959c9bb51b31=1504185178; channelid=0; sid=1504184953373567',
                         'Host' : 'www.kuaidaili.com',
-                        'Referer' : 'http://www.kuaidaili.com/',
+                        'Referer' : 'http://www.kuaidaili.com/free',
                         'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)\
                          Chrome/55.0.2883.87 Safari/537.36',
                         'X-Requested-With' : 'XMLHttpRequest',
@@ -47,8 +47,12 @@ class Proxies:
 # Lastcontent.page_count()
 
 firfoxPath = r'D:\webdrive\geckodriver.exe'
-wd = webdriver.Firefox(executable_path = firfoxPath)
+chromePath = r'D:\webdrive\chromedriver.exe'
+wd = webdriver.Chrome(executable_path = chromePath)
 wd.get('http://www.kuaidaili.com/free')
+time.sleep(5)
+# wd.get('http://www.kuaidaili.com/free/inha/2/')
+wd.refresh()
 req = requests.session()
 cookies = wd.get_cookies()
 print(cookies)
